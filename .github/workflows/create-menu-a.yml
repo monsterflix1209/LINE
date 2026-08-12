@@ -1,0 +1,16 @@
+name: Create LINE Rich Menu A
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create-menu:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create Rich Menu A
+        env:
+          LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+        run: python create_menu.py
