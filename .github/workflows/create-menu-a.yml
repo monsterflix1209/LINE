@@ -10,6 +10,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Compress menu image for LINE
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y imagemagick
+          magick bu.png -auto-orient -resize 2500x1686\! -strip -sampling-factor 4:2:0 -interlace Plane -quality 82 bu.jpg
+          ls -lh bu.png bu.jpg
+
       - name: Create Rich Menu A
         env:
           LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
