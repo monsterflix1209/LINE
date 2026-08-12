@@ -80,5 +80,23 @@ except urllib.error.HTTPError as e:
     print(e.read().decode("utf-8"))
     raise
 
-print("SUCCESS: TinyTangyuan Menu A created and compressed bu.png uploaded.")
+# 3) Set this Rich Menu as the default for all users.
+default_url = f"https://api.line.me/v2/bot/user/all/richmenu/{rich_menu_id}"
+default_req = urllib.request.Request(
+    default_url,
+    data=b"",
+    headers={"Authorization": f"Bearer {TOKEN}"},
+    method="POST"
+)
+
+try:
+    with urllib.request.urlopen(default_req) as response:
+        print("DEFAULT HTTP", response.status)
+        print(response.read().decode("utf-8"))
+except urllib.error.HTTPError as e:
+    print("DEFAULT HTTP", e.code)
+    print(e.read().decode("utf-8"))
+    raise
+
+print("SUCCESS: TinyTangyuan Menu A created, image uploaded, and set as default.")
 print("Rich Menu ID:", rich_menu_id)
