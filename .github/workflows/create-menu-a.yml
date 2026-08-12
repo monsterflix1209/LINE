@@ -1,4 +1,4 @@
-name: Create LINE Rich Menu A
+name: Create LINE Rich Menus A + B
 
 on:
   workflow_dispatch:
@@ -17,7 +17,7 @@ jobs:
           convert bu.png -auto-orient -resize 2500x1686\! -strip -sampling-factor 4:2:0 -interlace Plane -quality 82 bu.jpg
           ls -lh bu.png bu.jpg
 
-      - name: Create Rich Menu A
+      - name: Create Rich Menus A + B and set A as default
         env:
           LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
         run: python create_menu.py
