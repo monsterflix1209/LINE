@@ -48,13 +48,17 @@ except urllib.error.HTTPError as e:
     print(e.read().decode("utf-8"))
     raise
 
-# 2) Upload the actual 2500x1686 image from this repository
-image_path = "bu.png"
+# 2) Upload the compressed JPEG produced by the workflow.
+image_path = "bu.jpg"
 if not os.path.exists(image_path):
     raise SystemExit(f"Missing image: {image_path}")
 
 with open(image_path, "rb") as f:
     image_data = f.read()
+
+print("IMAGE BYTES", len(image_data))
+if len(image_data) >= 1000000:
+    raise SystemExit("Compressed image is still too large for LINE (< 1,000,000 bytes required)")
 
 upload_url = f"https://api-data.line.me/v2/bot/richmenu/{rich_menu_id}/content"
 upload_req = urllib.request.Request(
@@ -62,7 +66,7 @@ upload_req = urllib.request.Request(
     data=image_data,
     headers={
         "Authorization": f"Bearer {TOKEN}",
-        "Content-Type": "image/png"
+        "Content-Type": "image/jpeg"
     },
     method="POST"
 )
@@ -76,5 +80,5 @@ except urllib.error.HTTPError as e:
     print(e.read().decode("utf-8"))
     raise
 
-print("SUCCESS: TinyTangyuan Menu A created and bu.png uploaded.")
+print("SUCCESS: TinyTangyuan Menu A created and compressed bu.png uploaded.")
 print("Rich Menu ID:", rich_menu_id)
